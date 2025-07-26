@@ -6,10 +6,15 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-classifier = pipeline(
-    "sentiment-analysis",
-    model="distilbert/distilbert-base-uncased-finetuned-sst-2-english"
-)
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+import torch
+
+model_name = "distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+classifier = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
+
 
 
 @app.route("/analyze", methods=["POST"])
