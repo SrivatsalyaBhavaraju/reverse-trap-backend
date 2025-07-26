@@ -6,7 +6,11 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-classifier = pipeline("sentiment-analysis")
+classifier = pipeline(
+    "sentiment-analysis",
+    model="distilbert/distilbert-base-uncased-finetuned-sst-2-english"
+)
+
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
